@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  unit-test:
     strategy:
       matrix:
         python-version: [3.9.6]
@@ -37,3 +37,12 @@ jobs:
       run: |
         pip install -r src/test-requirements.txt
         python -m pytest --import-mode=append src/tests/
+  
+  build-docker:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build --tag publicbullet:$(date +%s) src/.
